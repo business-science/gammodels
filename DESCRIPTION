@@ -13,11 +13,13 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     parsnip,
+    mgcv,
     rlang (>= 0.1.2),
     magrittr
 Suggests: 
     tidymodels,
     modeltime,
+    brms,
     knitr,
     rmarkdown,
     roxygen2,
