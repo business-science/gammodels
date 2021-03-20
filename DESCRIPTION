@@ -1,0 +1,28 @@
+Package: gamsnip
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    parsnip,
+    rlang (>= 0.1.2),
+    magrittr
+Suggests: 
+    tidymodels,
+    modeltime,
+    knitr,
+    rmarkdown,
+    roxygen2,
+    testthat (>= 3.0.0)
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+VignetteBuilder: knitr
+Config/testthat/edition: 3
