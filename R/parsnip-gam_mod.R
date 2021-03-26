@@ -7,6 +7,74 @@
 #' General Interface for GAM Models
 #'
 #' @param mode A single character string for the type of model.
+#' 
+#' @return 
+#' A `parsnip` model specification 
+#' 
+#' @details 
+#' 
+#' Available engines:
+#' - __gam__: Connects to `mgcv::gam()`
+#' 
+#' @section Engine Details:
+#' 
+#' __gam__
+#' 
+#' This engine uses [mgcv::gam()] and has the following parameters, 
+#' which can be modified through the [parsnip::set_engine()] function. 
+#' 
+#' ``` {r echo=F}
+#' str(mgcv::gam)
+#' ```
+#' 
+#' @section Fit Details:
+#' 
+#' __MGCV Formula Interface__
+#' 
+#' Fitting GAMs is accomplished using parameters including:
+#' 
+#' - [mgcv::s()]: GAM spline smooths
+#' - [mgcv::te()]: GAM tensor product smooths
+#' 
+#' These are applied in the `fit()` function:
+#' 
+#' ``` r
+#' fit(value ~ s(date_mon, k = 12) + s(date_num), data = df)
+#' ```
+#' 
+#' 
+#' @examples 
+#' 
+#' library(tidymodels)
+#' library(gamsnip)
+#' library(modeltime)
+#' library(tidyverse)
+#' library(timetk)
+#' library(lubridate)
+#' 
+#' m750_extended <- m750 %>%
+#'     group_by(id) %>%
+#'     future_frame(.length_out = 24, .bind_data = TRUE) %>%
+#'     mutate(lag_24 = lag(value, 24)) %>%
+#'     ungroup() %>%
+#'     mutate(date_num = as.numeric(date)) %>%
+#'     mutate(date_month = month(date))
+#' 
+#' m750_train  <- m750_extended %>% drop_na()
+#' m750_future <- m750_extended %>% filter(is.na(value))
+#' 
+#' model_fit_gam <- gam_mod(mode = "regression") %>%
+#'     set_engine("gam", family=Gamma(link="log"), method = "REML") %>%
+#'     fit(value ~ s(date_month, k = 12) 
+#'         + s(date_num) 
+#'         + s(lag_24) 
+#'         + s(date_num, date_month), 
+#'         data = m750_train)
+#' 
+#' model_fit_gam %>% predict(m750_future, type = "numeric") 
+#' 
+#' model_fit_gam %>% predict(m750_future, type = "raw") 
+#' 
 #'  
 #' @export
 gam_mod <- function(mode = "regression") {

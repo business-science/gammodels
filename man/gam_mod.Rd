@@ -9,6 +9,79 @@ gam_mod(mode = "regression")
 \arguments{
 \item{mode}{A single character string for the type of model.}
 }
+\value{
+A \code{parsnip} model specification
+}
 \description{
 General Interface for GAM Models
+}
+\details{
+Available engines:
+\itemize{
+\item \strong{gam}: Connects to \code{mgcv::gam()}
+}
+}
+\section{Engine Details}{
+
+
+\strong{gam}
+
+This engine uses \code{\link[mgcv:gam]{mgcv::gam()}} and has the following parameters,
+which can be modified through the \code{\link[parsnip:set_engine]{parsnip::set_engine()}} function.\preformatted{## function (formula, family = gaussian(), data = list(), weights = NULL, 
+##     subset = NULL, na.action, offset = NULL, method = "GCV.Cp", optimizer = c("outer", 
+##         "newton"), control = list(), scale = 0, select = FALSE, knots = NULL, 
+##     sp = NULL, min.sp = NULL, H = NULL, gamma = 1, fit = TRUE, paraPen = NULL, 
+##     G = NULL, in.out = NULL, drop.unused.levels = TRUE, drop.intercept = NULL, 
+##     discrete = FALSE, ...)
+}
+}
+
+\section{Fit Details}{
+
+
+\strong{MGCV Formula Interface}
+
+Fitting GAMs is accomplished using parameters including:
+\itemize{
+\item \code{\link[mgcv:s]{mgcv::s()}}: GAM spline smooths
+\item \code{\link[mgcv:te]{mgcv::te()}}: GAM tensor product smooths
+}
+
+These are applied in the \code{fit()} function:\if{html}{\out{<div class="r">}}\preformatted{fit(value ~ s(date_mon, k = 12) + s(date_num), data = df)
+}\if{html}{\out{</div>}}
+}
+
+\examples{
+
+library(tidymodels)
+library(gamsnip)
+library(modeltime)
+library(tidyverse)
+library(timetk)
+library(lubridate)
+
+m750_extended <- m750 \%>\%
+    group_by(id) \%>\%
+    future_frame(.length_out = 24, .bind_data = TRUE) \%>\%
+    mutate(lag_24 = lag(value, 24)) \%>\%
+    ungroup() \%>\%
+    mutate(date_num = as.numeric(date)) \%>\%
+    mutate(date_month = month(date))
+
+m750_train  <- m750_extended \%>\% drop_na()
+m750_future <- m750_extended \%>\% filter(is.na(value))
+
+model_fit_gam <- gam_mod(mode = "regression") \%>\%
+    set_engine("gam", family=Gamma(link="log"), method = "REML") \%>\%
+    fit(value ~ s(date_month, k = 12) 
+        + s(date_num) 
+        + s(lag_24) 
+        + s(date_num, date_month), 
+        data = m750_train)
+
+model_fit_gam \%>\% predict(m750_future, type = "numeric") 
+
+model_fit_gam \%>\% predict(m750_future, type = "raw") 
+
+ 
 }

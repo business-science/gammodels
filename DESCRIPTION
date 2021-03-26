@@ -21,7 +21,10 @@ Imports:
     purrr
 Suggests: 
     tidymodels,
+    tidyverse,
     modeltime,
+    timetk, 
+    lubridate,
     knitr,
     rmarkdown,
     roxygen2,

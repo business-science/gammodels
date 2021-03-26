@@ -10,7 +10,7 @@ coverage](https://codecov.io/gh/business-science/gamsnip/branch/master/graph/bad
 [![R-CMD-check](https://github.com/business-science/gamsnip/workflows/R-CMD-check/badge.svg)](https://github.com/business-science/gamsnip/actions)
 <!-- badges: end -->
 
-The goal of gamsnip is to …
+This package is currently under development.
 
 ## Installation
 
