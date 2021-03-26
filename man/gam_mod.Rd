@@ -54,7 +54,7 @@ These are applied in the \code{fit()} function:\if{html}{\out{<div class="r">}}\
 \examples{
 
 library(tidymodels)
-library(gamsnip)
+library(modelgam)
 library(modeltime)
 library(tidyverse)
 library(timetk)

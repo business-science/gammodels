@@ -1,8 +1,8 @@
 ---
-title: "Getting Started with gamsnip"
+title: "Getting Started with modelgam"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started with gamsnip}
+  %\VignetteIndexEntry{Getting Started with modelgam}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,5 +15,5 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(gamsnip)
+library(modelgam)
 ```

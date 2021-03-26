@@ -12,7 +12,7 @@ make_gam_mod_mgcv_gam <- function() {
     
     parsnip::set_model_engine(model = model, mode = mode, eng = engine)
     parsnip::set_dependency(model = model, eng = engine, pkg = "mgcv")
-    parsnip::set_dependency(model = model, eng = engine, pkg = "gamsnip")
+    parsnip::set_dependency(model = model, eng = engine, pkg = "modelgam")
     
     parsnip::set_encoding(
         model = model,

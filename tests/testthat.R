@@ -1,4 +1,4 @@
 library(testthat)
-library(gamsnip)
+library(modelgam)
 
-test_check("gamsnip")
+test_check("modelgam")
