@@ -16,6 +16,9 @@
 .onLoad <- function(libname, pkgname) {
     # This defines the model database
     
+    make_gam_mod()
+    
+    make_gam_mod_mgcv_gam()
     
 }
 

@@ -17,7 +17,8 @@ Depends:
     mgcv
 Imports: 
     rlang (>= 0.1.2),
-    magrittr
+    magrittr,
+    purrr
 Suggests: 
     tidymodels,
     modeltime,
