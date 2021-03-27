@@ -77,9 +77,14 @@
 #' 
 #'  
 #' @export
-gam_mod <- function(mode = "regression") {
+gam_mod <- function(mode = "regression", 
+                    select_features = FALSE,
+                    adjust_deg_free = 1) {
     
-    args <- list()
+    args <- list(
+        select_features = rlang::enquo(select_features),
+        adjust_deg_free = rlang::enquo(adjust_deg_free)
+    )
     
     parsnip::new_model_spec(
         "gam_mod",
@@ -107,7 +112,10 @@ print.gam_mod <- function(x, ...) {
 
 #' @export
 #' @importFrom stats update
-update.gam_mod <- function(object, parameters = NULL,
+update.gam_mod <- function(object,
+                           select_features = FALSE,
+                           adjust_deg_free = 1,
+                           parameters = NULL,
                            fresh = FALSE, ...) {
     
     parsnip::update_dot_check(...)
@@ -117,7 +125,8 @@ update.gam_mod <- function(object, parameters = NULL,
     }
     
     args <- list(
-        
+        select_features = rlang::enquo(select_features),
+        adjust_deg_free = rlang::enquo(adjust_deg_free)
     )
     
     args <- parsnip::update_main_parameters(args, parameters)
@@ -154,3 +163,4 @@ translate.gam_mod <- function(x, engine = x$engine, ...) {
     
     x
 }
+

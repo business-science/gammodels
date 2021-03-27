@@ -1,4 +1,12 @@
 library(testthat)
 library(modelgam)
+library(rsample)
+library(modeltime)
+library(dplyr)
+library(tidyr)
+library(timetk)
+library(lubridate)
+library(rsample)
+library(stats)
 
 test_check("modelgam")

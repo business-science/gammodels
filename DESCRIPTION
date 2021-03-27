@@ -25,6 +25,7 @@ Suggests:
     modeltime,
     timetk, 
     lubridate,
+    stats,
     knitr,
     rmarkdown,
     roxygen2,
