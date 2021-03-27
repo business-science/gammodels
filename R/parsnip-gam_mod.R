@@ -46,7 +46,7 @@
 #' @examples 
 #' 
 #' library(tidymodels)
-#' library(gamsnip)
+#' library(modelgam)
 #' library(modeltime)
 #' library(tidyverse)
 #' library(timetk)
