@@ -55,7 +55,10 @@ make_gam_mod_mgcv_gam <- function() {
             interface = "formula",
             protect = c("formula", "data"),
             func = c(pkg = "mgcv", fun = "gam"),
-            defaults = list()
+            defaults = list(
+                select = FALSE,
+                gamma  = 1
+            )
         )
     )
     
@@ -143,7 +146,11 @@ make_gam_mod_mgcv_gam <- function() {
             interface = "formula",
             protect = c("formula", "data"),
             func = c(pkg = "mgcv", fun = "gam"),
-            defaults = list(family = stats::binomial(link = "logit"))
+            defaults = list(
+                select = FALSE,
+                gamma  = 1,
+                family = stats::binomial(link = "logit")
+            )
         )
     )
     

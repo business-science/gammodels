@@ -97,8 +97,8 @@
 #'  
 #' @export
 gam_mod <- function(mode = "regression", 
-                    select_features = FALSE,
-                    adjust_deg_free = 1) {
+                    select_features = NULL,
+                    adjust_deg_free = NULL) {
     
     args <- list(
         select_features = rlang::enquo(select_features),
@@ -132,8 +132,8 @@ print.gam_mod <- function(x, ...) {
 #' @export
 #' @importFrom stats update
 update.gam_mod <- function(object,
-                           select_features = FALSE,
-                           adjust_deg_free = 1,
+                           select_features = NULL,
+                           adjust_deg_free = NULL,
                            parameters = NULL,
                            fresh = FALSE, ...) {
     

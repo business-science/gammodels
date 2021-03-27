@@ -4,7 +4,7 @@
 \alias{gam_mod}
 \title{Interface for Generalized Additive Models (GAM)}
 \usage{
-gam_mod(mode = "regression", select_features = FALSE, adjust_deg_free = 1)
+gam_mod(mode = "regression", select_features = NULL, adjust_deg_free = NULL)
 }
 \arguments{
 \item{mode}{A single character string for the type of model.}
