@@ -46,7 +46,7 @@
 #' @examples 
 #' 
 #' library(tidymodels)
-#' library(modelgam)
+#' library(gamsnip)
 #' library(modeltime)
 #' library(tidyverse)
 #' library(timetk)
@@ -154,3 +154,4 @@ translate.gam_mod <- function(x, engine = x$engine, ...) {
     
     x
 }
+
