@@ -15,6 +15,26 @@ make_gam_mod_mgcv_gam <- function() {
     parsnip::set_dependency(model = model, eng = engine, pkg = "mgcv")
     parsnip::set_dependency(model = model, eng = engine, pkg = "modelgam")
     
+    #Args
+    
+    parsnip::set_model_arg(
+        model        = "gam_mod",
+        eng          = "gam",
+        parsnip      = "select_features",
+        original     = "select",
+        func         = list(pkg = "modelgam", fun = "select_features"),
+        has_submodel = FALSE
+    )
+    
+    parsnip::set_model_arg(
+        model        = "gam_mod",
+        eng          = "gam",
+        parsnip      = "adjust_deg_free",
+        original     = "gamma",
+        func         = list(pkg = "modelgam", fun = "adjust_deg_free"),
+        has_submodel = FALSE
+    )
+    
     parsnip::set_encoding(
         model = model,
         eng   = engine,
