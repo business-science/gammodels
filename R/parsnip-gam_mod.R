@@ -4,17 +4,36 @@
 #   - mode = "regression" (default) uses 
 #   - mode = "classification"
 
-#' General Interface for GAM Models
+#' Interface for Generalized Additive Models (GAM)
 #'
 #' @param mode A single character string for the type of model.
+#' @param select_features TRUE or FALSE. If this is TRUE then can add an 
+#'  extra penalty to each term so that it can be penalized to zero. 
+#'  This means that the smoothing parameter estimation that is part of 
+#'  fitting can completely remove terms from the model. If the corresponding 
+#'  smoothing parameter is estimated as zero then the extra penalty has no effect. 
+#'  Use `adjust_deg_free` to increase level of penalization.
+#' @param adjust_deg_free If `select_features = TRUE`, then acts as a multiplier for smoothness. 
+#'  Increase this beyond 1 to produce smoother models. 
+#'  
 #' 
 #' @return 
 #' A `parsnip` model specification 
 #' 
 #' @details 
 #' 
-#' Available engines:
+#' __Available Engines:__
 #' - __gam__: Connects to `mgcv::gam()`
+#' 
+#' __Parameter Mapping:__
+#' 
+#' ```{r echo = FALSE}
+#' tibble::tribble(
+#'     ~ "modelgam", ~ "mgcv::gam", 
+#'     "select_features", "select (FALSE)",
+#'     "adjust_deg_free", "gamma (1)"
+#' ) %>% knitr::kable()
+#' ```
 #' 
 #' @section Engine Details:
 #' 

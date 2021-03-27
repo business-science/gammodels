@@ -2,23 +2,39 @@
 % Please edit documentation in R/parsnip-gam_mod.R
 \name{gam_mod}
 \alias{gam_mod}
-\title{General Interface for GAM Models}
+\title{Interface for Generalized Additive Models (GAM)}
 \usage{
-gam_mod(mode = "regression")
+gam_mod(mode = "regression", select_features = FALSE, adjust_deg_free = 1)
 }
 \arguments{
 \item{mode}{A single character string for the type of model.}
+
+\item{select_features}{TRUE or FALSE. If this is TRUE then can add an
+extra penalty to each term so that it can be penalized to zero.
+This means that the smoothing parameter estimation that is part of
+fitting can completely remove terms from the model. If the corresponding
+smoothing parameter is estimated as zero then the extra penalty has no effect.
+Use \code{adjust_deg_free} to increase level of penalization.}
+
+\item{adjust_deg_free}{If \code{select_features = TRUE}, then acts as a multiplier for smoothness.
+Increase this beyond 1 to produce smoother models.}
 }
 \value{
 A \code{parsnip} model specification
 }
 \description{
-General Interface for GAM Models
+Interface for Generalized Additive Models (GAM)
 }
 \details{
-Available engines:
+\strong{Available Engines:}
 \itemize{
 \item \strong{gam}: Connects to \code{mgcv::gam()}
+}
+
+\strong{Parameter Mapping:}\tabular{ll}{
+   modelgam \tab mgcv::gam \cr
+   select_features \tab select (FALSE) \cr
+   adjust_deg_free \tab gamma (1) \cr
 }
 }
 \section{Engine Details}{

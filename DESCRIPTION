@@ -1,5 +1,5 @@
 Package: modelgam
-Title: What the Package Does (One Line, Title Case)
+Title: The 'tidymodels' backend for GAM models
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "First",
@@ -18,12 +18,16 @@ Depends:
 Imports: 
     rlang (>= 0.1.2),
     magrittr,
-    purrr
+    purrr,
+    tibble
 Suggests: 
     tidymodels,
     tidyverse,
     modeltime,
     timetk, 
+    dplyr,
+    rsample,
+    tidyr,
     lubridate,
     stats,
     knitr,
