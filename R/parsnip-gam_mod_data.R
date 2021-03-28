@@ -1,13 +1,13 @@
 
 
-make_gam_mod <- function() {
-    parsnip::set_new_model("gam_mod")
+make_gen_additive_mod <- function() {
+    parsnip::set_new_model("gen_additive_mod")
 }
 
-make_gam_mod_mgcv_gam <- function() {
+make_gen_additive_mod_mgcv_gam <- function() {
     
     #### REGRESION
-    model  = "gam_mod"
+    model  = "gen_additive_mod"
     mode   = "regression"
     engine = "gam"
     
@@ -18,7 +18,7 @@ make_gam_mod_mgcv_gam <- function() {
     #Args
     
     parsnip::set_model_arg(
-        model        = "gam_mod",
+        model        = "gen_additive_mod",
         eng          = "gam",
         parsnip      = "select_features",
         original     = "select",
@@ -27,7 +27,7 @@ make_gam_mod_mgcv_gam <- function() {
     )
     
     parsnip::set_model_arg(
-        model        = "gam_mod",
+        model        = "gen_additive_mod",
         eng          = "gam",
         parsnip      = "adjust_deg_free",
         original     = "gamma",
@@ -118,7 +118,7 @@ make_gam_mod_mgcv_gam <- function() {
     
     #### CLASSIFICATION
     
-    model  = "gam_mod"
+    model  = "gen_additive_mod"
     mode   = "classification"
     engine = "gam"
     

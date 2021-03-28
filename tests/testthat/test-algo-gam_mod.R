@@ -1,4 +1,4 @@
-testthat::context("TEST gam_mod: GAM")
+testthat::context("TEST gen_additive_mod: GAM")
 
 # SETUP---
 
@@ -19,10 +19,10 @@ classif_split <- initial_split(classif_df, prop = 0.8, strata = purchase)
 
 #Regression ----
 
-model_spec_reg <- gam_mod() %>%
+model_spec_reg <- gen_additive_mod() %>%
                   set_engine("gam", family = gaussian(), method = "REML")
 
-model_spec_clas <- gam_mod(mode = "classification") %>%
+model_spec_clas <- gen_additive_mod(mode = "classification") %>%
                    set_engine("gam", family = binomial(), method = "REML")
                    
                    
@@ -30,7 +30,7 @@ model_spec_clas <- gam_mod(mode = "classification") %>%
 
 # PARSNIP ----
 
-test_that("gam_mod: Regression Parsnip Test", {
+test_that("gen_additive_mod: Regression Parsnip Test", {
     
     testthat::skip_on_cran()
     
@@ -67,7 +67,7 @@ test_that("gam_mod: Regression Parsnip Test", {
 })
 
 
-test_that("gam_mod: Classification Parsnip Test", {
+test_that("gen_additive_mod: Classification Parsnip Test", {
     
     testthat::skip_on_cran()
     

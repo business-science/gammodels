@@ -1,4 +1,4 @@
-# gam_mod() - General Interface to Linear GAM Models
+# gen_additive_mod() - General Interface to Linear GAM Models
 # - backend: gam
 # - prediction:
 #   - mode = "regression" (default) uses 
@@ -82,7 +82,7 @@
 #' m750_train  <- m750_extended %>% drop_na()
 #' m750_future <- m750_extended %>% filter(is.na(value))
 #' 
-#' model_fit_gam <- gam_mod(mode = "regression") %>%
+#' model_fit_gam <- gen_additive_mod(mode = "regression") %>%
 #'     set_engine("gam", family=Gamma(link="log"), method = "REML") %>%
 #'     fit(value ~ s(date_month, k = 12) 
 #'         + s(date_num) 
@@ -96,7 +96,7 @@
 #' 
 #'  
 #' @export
-gam_mod <- function(mode = "regression", 
+gen_additive_mod <- function(mode = "regression", 
                     select_features = NULL,
                     adjust_deg_free = NULL) {
     
@@ -106,7 +106,7 @@ gam_mod <- function(mode = "regression",
     )
     
     parsnip::new_model_spec(
-        "gam_mod",
+        "gen_additive_mod",
         args     = args,
         eng_args = NULL,
         mode     = mode,
@@ -117,7 +117,7 @@ gam_mod <- function(mode = "regression",
 }
 
 #' @export
-print.gam_mod <- function(x, ...) {
+print.gen_additive_mod <- function(x, ...) {
     cat("GAM Model Specification (", x$mode, ")\n\n", sep = "")
     parsnip::model_printer(x, ...)
     
@@ -131,7 +131,7 @@ print.gam_mod <- function(x, ...) {
 
 #' @export
 #' @importFrom stats update
-update.gam_mod <- function(object,
+update.gen_additive_mod <- function(object,
                            select_features = NULL,
                            adjust_deg_free = NULL,
                            parameters = NULL,
@@ -161,7 +161,7 @@ update.gam_mod <- function(object,
     }
     
     parsnip::new_model_spec(
-        "gam_mod",
+        "gen_additive_mod",
         args     = object$args,
         eng_args = object$eng_args,
         mode     = object$mode,
@@ -173,7 +173,7 @@ update.gam_mod <- function(object,
 
 #' @export
 #' @importFrom parsnip translate
-translate.gam_mod <- function(x, engine = x$engine, ...) {
+translate.gen_additive_mod <- function(x, engine = x$engine, ...) {
     if (is.null(engine)) {
         message("Used `engine = 'gam'` for translation.")
         engine <- "gam"
