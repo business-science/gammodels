@@ -35,6 +35,51 @@ make_gen_additive_mod_mgcv_gam <- function() {
         has_submodel = FALSE
     )
     
+    parsnip::set_model_arg(
+        model        = "gen_additive_mod",
+        eng          = "gam",
+        parsnip      = "smoother_dim_term1",
+        original     = "k_term1",
+        func         = list(pkg = "modelgam", fun = "smoother_dim_term1"),
+        has_submodel = FALSE
+    )
+    
+    parsnip::set_model_arg(
+        model        = "gen_additive_mod",
+        eng          = "gam",
+        parsnip      = "smoother_dim_term2",
+        original     = "k_term2",
+        func         = list(pkg = "modelgam", fun = "smoother_dim_term2"),
+        has_submodel = FALSE
+    )
+    
+    parsnip::set_model_arg(
+        model        = "gen_additive_mod",
+        eng          = "gam",
+        parsnip      = "smoother_dim_term3",
+        original     = "k_term3",
+        func         = list(pkg = "modelgam", fun = "smoother_dim_term3"),
+        has_submodel = FALSE
+    )
+    
+    parsnip::set_model_arg(
+        model        = "gen_additive_mod",
+        eng          = "gam",
+        parsnip      = "smoother_dim_term4",
+        original     = "k_term4",
+        func         = list(pkg = "modelgam", fun = "smoother_dim_term4"),
+        has_submodel = FALSE
+    )
+    
+    parsnip::set_model_arg(
+        model        = "gen_additive_mod",
+        eng          = "gam",
+        parsnip      = "smoother_dim_term5",
+        original     = "k_term5",
+        func         = list(pkg = "modelgam", fun = "smoother_dim_term5"),
+        has_submodel = FALSE
+    )
+    
     parsnip::set_encoding(
         model = model,
         eng   = engine,
@@ -54,7 +99,7 @@ make_gen_additive_mod_mgcv_gam <- function() {
         value = list(
             interface = "formula",
             protect = c("formula", "data"),
-            func = c(pkg = "mgcv", fun = "gam"),
+            func = c(fun = "gen_additive_mod_fit_impl"),
             defaults = list(
                 select = FALSE,
                 gamma  = 1
@@ -69,12 +114,11 @@ make_gen_additive_mod_mgcv_gam <- function() {
         type   = "numeric",
         value  = list(
             pre  = NULL,
-            post = function(x, object) as.numeric(x),
+            post = NULL,
             func = c(fun = "predict"),
             args = list(
                 object = rlang::expr(object$fit),
-                newdata = rlang::expr(new_data),
-                type = "response"
+                new_data = rlang::expr(new_data)
             )
         )
     )

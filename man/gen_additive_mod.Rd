@@ -7,7 +7,12 @@
 gen_additive_mod(
   mode = "regression",
   select_features = NULL,
-  adjust_deg_free = NULL
+  adjust_deg_free = NULL,
+  smoother_dim_term1 = NULL,
+  smoother_dim_term2 = NULL,
+  smoother_dim_term3 = NULL,
+  smoother_dim_term4 = NULL,
+  smoother_dim_term5 = NULL
 )
 }
 \arguments{
@@ -47,12 +52,9 @@ Interface for Generalized Additive Models (GAM)
 \strong{gam}
 
 This engine uses \code{\link[mgcv:gam]{mgcv::gam()}} and has the following parameters,
-which can be modified through the \code{\link[parsnip:set_engine]{parsnip::set_engine()}} function.\preformatted{## function (formula, family = gaussian(), data = list(), weights = NULL, 
-##     subset = NULL, na.action, offset = NULL, method = "GCV.Cp", optimizer = c("outer", 
-##         "newton"), control = list(), scale = 0, select = FALSE, knots = NULL, 
-##     sp = NULL, min.sp = NULL, H = NULL, gamma = 1, fit = TRUE, paraPen = NULL, 
-##     G = NULL, in.out = NULL, drop.unused.levels = TRUE, drop.intercept = NULL, 
-##     discrete = FALSE, ...)
+which can be modified through the \code{\link[parsnip:set_engine]{parsnip::set_engine()}} function.\preformatted{## function (formula, family = gaussian(), data = list(), weights = NULL, subset = NULL, na.action, offset = NULL, method = "GCV.Cp", optimizer = c("outer", 
+##     "newton"), control = list(), scale = 0, select = FALSE, knots = NULL, sp = NULL, min.sp = NULL, H = NULL, gamma = 1, fit = TRUE, 
+##     paraPen = NULL, G = NULL, in.out = NULL, drop.unused.levels = TRUE, drop.intercept = NULL, discrete = FALSE, ...)
 }
 }
 
