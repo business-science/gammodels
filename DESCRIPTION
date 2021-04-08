@@ -1,4 +1,4 @@
-Package: modelgam
+Package: gammodels
 Title: The 'tidymodels' backend for GAM models
 Version: 0.0.0.9000
 Authors@R: 
