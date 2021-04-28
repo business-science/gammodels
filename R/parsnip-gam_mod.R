@@ -98,11 +98,21 @@
 #' @export
 gen_additive_mod <- function(mode = "regression", 
                     select_features = NULL,
-                    adjust_deg_free = NULL) {
+                    adjust_deg_free = NULL,
+                    smoother_dim_term1 = NULL,
+                    smoother_dim_term2 = NULL,
+                    smoother_dim_term3 = NULL,
+                    smoother_dim_term4 = NULL,
+                    smoother_dim_term5 = NULL) {
     
     args <- list(
         select_features = rlang::enquo(select_features),
-        adjust_deg_free = rlang::enquo(adjust_deg_free)
+        adjust_deg_free = rlang::enquo(adjust_deg_free),
+        smoother_dim_term1 = rlang::enquo(smoother_dim_term1),
+        smoother_dim_term2 = rlang::enquo(smoother_dim_term2),
+        smoother_dim_term3 = rlang::enquo(smoother_dim_term3),
+        smoother_dim_term4 = rlang::enquo(smoother_dim_term4),
+        smoother_dim_term5 = rlang::enquo(smoother_dim_term5)
     )
     
     parsnip::new_model_spec(
@@ -134,6 +144,11 @@ print.gen_additive_mod <- function(x, ...) {
 update.gen_additive_mod <- function(object,
                            select_features = NULL,
                            adjust_deg_free = NULL,
+                           smoother_dim_term1 = NULL,
+                           smoother_dim_term2 = NULL,
+                           smoother_dim_term3 = NULL,
+                           smoother_dim_term4 = NULL,
+                           smoother_dim_term5 = NULL,
                            parameters = NULL,
                            fresh = FALSE, ...) {
     
@@ -145,7 +160,12 @@ update.gen_additive_mod <- function(object,
     
     args <- list(
         select_features = rlang::enquo(select_features),
-        adjust_deg_free = rlang::enquo(adjust_deg_free)
+        adjust_deg_free = rlang::enquo(adjust_deg_free),
+        smoother_dim_term1 = rlang::enquo(smoother_dim_term1),
+        smoother_dim_term2 = rlang::enquo(smoother_dim_term2),
+        smoother_dim_term3 = rlang::enquo(smoother_dim_term3),
+        smoother_dim_term4 = rlang::enquo(smoother_dim_term4),
+        smoother_dim_term5 = rlang::enquo(smoother_dim_term5)
     )
     
     args <- parsnip::update_main_parameters(args, parameters)
@@ -182,4 +202,122 @@ translate.gen_additive_mod <- function(x, engine = x$engine, ...) {
     
     x
 }
+
+
+# FIT - GAM -----
+
+#' Low-Level GAM function for translating modeltime to forecast
+#'
+#' @param formula A dataframe of xreg (exogenous regressors)
+#' @param data A numeric vector of values to fit
+#' @param ... Additional arguments passed to `forecast::Arima`
+#'
+#' @export
+gen_additive_mod_fit_impl <- function(formula, data, k_term1 = NULL, k_term2 = NULL, k_term3 = NULL, k_term4 = NULL, k_term5 = NULL, ...) {
+    
+    # X & Y
+    others <- list(...)
+    
+    k <- c(k_term1, k_term2, k_term3, k_term4, k_term5)
+    
+    #"fit" when it comes from fit() and "parsnip::fit" when it comes from modeltime_refit().
+    callingFun = as.list(sys.call(-6))[[1]] 
+    
+    y <- all.vars(formula)[1]
+    x <- attr(stats::terms(formula, data = data), "term.labels")
+    
+    smooth_replacement <- function(term, dimension, pattern = "\\)"){
+        
+        return(stringr::str_replace(term, pattern = pattern, replacement = stringr::str_glue(", k = {dimension})")))
+        
+    }
+    
+    if (!is.null(k) & callingFun == "fit"){
+        
+        smooth_terms <- purrr::map2(x[1:length(k)], k, smooth_replacement) %>%
+            stringr::str_c(collapse = " + ")
+        
+        rest_terms <- x[(length(k)+1):length(x)]
+        
+        formula <- as.formula(stringr::str_glue('{y} ~ {smooth_terms %>% stringr::str_c(rest_terms, sep = " + ")}'))
+    } else{
+        formula <- as.formula(stringr::str_glue('{y} ~ {stringr::str_c(x, collapse = " + ")}'))
+    }
+    
+    
+    gam_fit <- mgcv::gam(formula = formula, data = data, ...)
+    
+    
+    # RETURN
+    modeltime::new_modeltime_bridge(
+        class = "gen_additive_mod_fit_impl",
+        
+        # Models
+        models = list(
+            model_1 = gam_fit
+        ),
+        
+        data = tibble(
+            .date      = timetk::tk_make_timeseries(start_date = "1970", length_out = length(gam_fit$residuals)),
+            .actual    = data[[y]],
+            .fitted    = gam_fit$fitted.values,
+            .residuals = gam_fit$residuals
+        ),
+        
+        extras = list(formula = formula,
+                      others  = others,
+                      y = y,
+                      x = x,
+                      k = k,
+                      fun = callingFun),
+        
+        # Description - Convert arima model parameters to short description
+        desc = 'GAM Model'
+    )
+    
+}
+
+#' @export
+print.gen_additive_mod_fit_impl <- function(x, ...) {
+    print(x$models$model_1)
+    invisible(x)
+}
+
+
+# PREDICT ----
+
+#' @export
+predict.gen_additive_mod_fit_impl <- function(object, new_data, ...) {
+    
+    gen_additive_mod_predict_impl(object, new_data, ...)
+}
+
+
+#' Bridge prediction Function for GAMS Models
+#'
+#' @inheritParams parsnip::predict.model_fit
+#' @param ... Additional arguments passed to `stats::predict()`
+#'
+#' @return
+#' A vector of values (predictions) with class `numeric`.
+#'
+#' @export
+gen_additive_mod_predict_impl <- function(object, new_data, ...) {
+    
+    # PREPARE INPUTS
+    model  <- object$models$model_1
+    
+    preds <- stats::predict(model, new_data = new_data, newdata = new_data,  type = "response", ...) %>%
+        as.numeric()
+    
+    return(preds)
+    
+}
+
+
+
+
+
+
+
 
